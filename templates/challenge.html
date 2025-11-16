@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Teams</title>
+
+<style>
+    body{
+        margin:0;
+        font-family: "Inter", sans-serif;
+        background:#1e1e1e;      /* Soft charcoal */
+        color:#f2f2f2;           /* Clean white */
+        
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        min-height:100vh;
+        text-align:center;
+        padding:20px;
+    }
+
+    .box{
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        width:100%;
+        max-width:500px;
+    }
+
+    /* Home Button */
+    .home-btn{
+        padding:14px 32px;
+        background:#4a90e2;      /* Clean blue */
+        color:white;
+        font-weight:700;
+        font-size:1.15rem;
+        border-radius:12px;
+        text-decoration:none;
+        margin-bottom:40px;
+        border:none;
+        transition:0.3s ease;
+        box-shadow:0 4px 15px rgba(74, 144, 226, 0.3);
+    }
+    .home-btn:hover{
+        background:#317ae0;
+        transform:translateY(-2px);
+        box-shadow:0 6px 20px rgba(74, 144, 226, 0.4);
+    }
+
+    h1{
+        margin:0 0 40px 0;
+        font-size:2.8rem;
+        color:#d9e6ff;           /* Light soft blue */
+        font-weight:800;
+        letter-spacing:-0.5px;
+    }
+
+    select{
+        width:100%;
+        max-width:400px;
+        padding:18px 20px;
+        background:#2c2f33;     /* Smooth dark grey */
+        border:2px solid #40444b;
+        border-radius:12px;
+        color:#ffffff;
+        margin-bottom:24px;
+        font-size:1.25rem;
+        font-weight:600;
+        outline:none;
+        transition:0.3s ease;
+        cursor:pointer;
+        box-shadow:0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    select:focus{
+        border-color:#4a90e2;
+        background:#32363b;
+        box-shadow:0 0 0 3px rgba(74, 144, 226, 0.2);
+    }
+    select:hover{
+        border-color:#5a6b7f;
+    }
+
+    button{
+        margin-top:20px;
+        padding:18px 50px;
+        font-size:1.35rem;
+        border:none;
+        border-radius:12px;
+        background:#4a90e2;
+        color:white;
+        font-weight:800;
+        cursor:pointer;
+        transition:0.3s ease;
+        box-shadow:0 6px 20px rgba(74, 144, 226, 0.4);
+        text-transform:uppercase;
+        letter-spacing:0.5px;
+    }
+    button:hover{
+        background:#317ae0;
+        transform:translateY(-3px);
+        box-shadow:0 8px 25px rgba(74, 144, 226, 0.5);
+    }
+    button:active{
+        transform:translateY(-1px);
+    }
+
+    /* Mobile */
+    @media(max-width:640px){
+        h1{
+            font-size:2.2rem;
+        }
+        select{
+            font-size:1.1rem;
+            padding:16px 18px;
+        }
+        button{
+            font-size:1.2rem;
+            padding:16px 40px;
+        }
+    }
+
+    @media(max-width:480px){
+        h1{
+            font-size:1.9rem;
+        }
+        .home-btn{
+            padding:12px 24px;
+            font-size:1rem;
+        }
+        select{
+            width:100%;
+            font-size:1rem;
+            padding:14px 16px;
+        }
+        button{
+            width:100%;
+            font-size:1.1rem;
+            padding:14px 32px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <a href="/" class="home-btn">🏠 Home</a>
+
+    <h1>Select Two Teams</h1>
+
+    <select id="team1">
+        {% for team in teams %}
+            <option value="{{ team }}">{{ team }}</option>
+        {% endfor %}
+    </select>
+
+    <select id="team2">
+        {% for team in teams %}
+            <option value="{{ team }}">{{ team }}</option>
+        {% endfor %}
+    </select>
+
+    <button onclick="startMatch()">Start</button>
+</div>
+
+<script>
+function startMatch(){
+    let t1 = document.getElementById("team1").value;
+    let t2 = document.getElementById("team2").value;
+
+    if(t1 === t2){
+        alert("Select two different teams!");
+        return;
+    }
+
+    window.location.href = "/win-probability/" + t1 + "vs" + t2;
+}
+</script>
+
+</body>
+</html>

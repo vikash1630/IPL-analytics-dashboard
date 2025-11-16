@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ team }} - Profile</title>
+
+    <style>
+        /* ---------- THEME COLORS ---------- */
+        :root {
+            --bg1: #00040e;
+            --bg2: #020617;
+
+            --accent1: #6d28d9;
+            /* Deep Purple */
+            --accent2: #0ea5e9;
+            /* Light Neon Blue */
+            --accent3: #22d3ee;
+            /* Cyan */
+            --accent4: #3b82f6;
+
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+
+            --card-bg: #0b1120;
+            --card-bg-hover: #151e32;
+            --border: rgba(255, 255, 255, 0.12);
+        }
+
+        /* ---------- PAGE BACKGROUND ---------- */
+        body {
+            margin: 0;
+            font-family: "Inter", sans-serif;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(109, 40, 217, 0.32), transparent 55%),
+                radial-gradient(circle at 80% 80%, rgba(14, 165, 233, 0.32), transparent 55%),
+                linear-gradient(135deg, var(--bg1), var(--bg2));
+        }
+
+        /* ---------- MAIN CARD ---------- */
+        .container {
+            width: 100%;
+            max-width: 820px;
+            background: #050a16;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(20px);
+            box-shadow:
+                0 0 160px rgba(0, 0, 0, 0.8),
+                0 0 120px rgba(109, 40, 217, 0.25),
+                0 0 200px rgba(14, 165, 233, 0.2);
+            animation: fadeIn 1s ease;
+        }
+
+        /* ---------- HOME BUTTON ---------- */
+        .home-btn {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 10px 22px;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--accent1), var(--accent2));
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.95rem;
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+            transition: 0.3s ease;
+        }
+
+        .home-btn:hover {
+            box-shadow: 0 0 25px rgba(14, 165, 233, 0.7);
+            transform: translateY(-3px);
+        }
+
+        /* ---------- TITLE ---------- */
+        h1 {
+            margin-top: 0;
+            font-size: 2.4rem;
+            text-align: center;
+            background: linear-gradient(90deg, var(--accent1), var(--accent3));
+            background-clip: border-box;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 18px rgba(34, 211, 238, 0.5);
+            animation: glowPulse 3s infinite;
+        }
+
+        /* ---------- STATS GRID ---------- */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 22px;
+            margin-top: 28px;
+        }
+
+        /* ---------- STAT BOX ---------- */
+        .stat-item {
+            background: var(--card-bg);
+            padding: 22px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: 0.35s ease-in-out;
+            box-shadow:
+                inset 0 0 14px rgba(255, 255, 255, 0.04),
+                0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* rotating neon glow */
+        .stat-item::before {
+            content: "";
+            position: absolute;
+            inset: -40%;
+            background: conic-gradient(from 0deg,
+                    rgba(109, 40, 217, 0.2),
+                    rgba(14, 165, 233, 0.2),
+                    rgba(34, 211, 238, 0.2),
+                    transparent 60%);
+            filter: blur(50px);
+            animation: rotateGlow 7s linear infinite;
+        }
+
+        .stat-item:hover {
+            background: var(--card-bg-hover);
+            transform: translateY(-6px) scale(1.04);
+            box-shadow:
+                0 14px 32px rgba(0, 0, 0, 0.65),
+                0 0 25px rgba(14, 165, 233, 0.5);
+        }
+
+        /* content above glowing bg */
+        .stat-item * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .label {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+
+        .value {
+            margin-top: 8px;
+            font-size: 2rem;
+            font-weight: 800;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+        }
+
+        /* ---------- MOBILE ---------- */
+        @media(max-width:600px) {
+            h1 {
+                font-size: 2.1rem;
+            }
+
+            .value {
+                font-size: 1.7rem;
+            }
+        }
+
+        /* ---------- ANIMATIONS ---------- */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                text-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
+            }
+
+            50% {
+                text-shadow: 0 0 25px rgba(109, 40, 217, 0.6);
+            }
+        }
+
+        @keyframes rotateGlow {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- CENTERED HOME BUTTON -->
+        <div style="text-align:center; margin-bottom:20px;">
+            <a href="/" class="home-btn" style="
+            display:inline-block;
+            padding:10px 24px;
+            border-radius:10px;
+            font-weight:600;
+            text-decoration:none;
+            background:linear-gradient(90deg, var(--accent1), var(--accent2));
+            color:white;
+            box-shadow:0 0 18px rgba(14,165,233,0.45);
+            transition:0.3s;
+       ">🏠 Home</a>
+        </div>
+
+
+        <h1>{{ team }} - Profile</h1>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="label">Total Matches</div>
+                <div class="value">{{ data["Total Matches"] }}</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="label">Matches Won</div>
+                <div class="value">{{ data["Matches Won"] }}</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="label">Matches Lost</div>
+                <div class="value">{{ data["Matches Lost"] }}</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="label">No Results</div>
+                <div class="value">{{ data["No Results"] }}</div>
+            </div>
+
+            <div class="stat-item">
+                <div class="label">Win Percentage</div>
+                <div class="value">{{ data["Win Percentage"] }}%</div>
+            </div>
+
+            <a href="/{{ team }}/players" style="text-decoration: none;" class="stat-item">
+                <div class="label">Players</div>
+                <div class="value" style="font-size:1.4rem;">
+                    <div  style="color:var(--accent3); text-decoration:none; font-weight:600; margin-left: 15%;">
+                        View Players
+                    </div>
+                </div>
+            </a>
+
+
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+

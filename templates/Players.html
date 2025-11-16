@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ data.Team }} - Players</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e1e1e 0%, #2c2c2c 100%);
+            color: #f2f2f2;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .nav-btn {
+            padding: 12px 28px;
+            background: #4a90e2;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-btn:hover {
+            background: #317ae0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        .team-title {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4a90e2, #6eb5ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .player-count {
+            font-size: 1.4rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        /* Controls Section */
+        .controls {
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 50px 16px 20px;
+            background: #2c2f33;
+            border: 2px solid #40444b;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.3rem;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+            background: #2c2f33;
+            padding: 6px;
+            border-radius: 12px;
+            border: 2px solid #40444b;
+        }
+
+        .view-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .view-btn.active {
+            background: #4a90e2;
+            color: white;
+        }
+
+        .view-btn:hover:not(.active) {
+            background: #40444b;
+            color: #fff;
+        }
+
+        /* Grid View */
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .player-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-card:hover {
+            transform: translateY(-8px);
+            border-color: #4a90e2;
+            box-shadow: 0 20px 40px rgba(74, 144, 226, 0.3);
+        }
+
+        .player-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4a90e2, #6eb5ff);
+        }
+
+        .player-avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #4a90e2, #6eb5ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            box-shadow: 0 10px 30px rgba(74, 144, 226, 0.4);
+        }
+
+        .player-name {
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .player-role {
+            text-align: center;
+            color: #4a90e2;
+            font-weight: 600;
+            font-size: 1rem;
+            background: rgba(74, 144, 226, 0.15);
+            padding: 6px 16px;
+            border-radius: 20px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .player-number {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(74, 144, 226, 0.2);
+            color: #4a90e2;
+            font-weight: 900;
+            font-size: 1.1rem;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        /* List View */
+        .players-list {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .players-list.active {
+            display: flex;
+        }
+
+        .player-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .player-item:hover {
+            border-color: #4a90e2;
+            background: rgba(74, 144, 226, 0.08);
+            transform: translateX(5px);
+        }
+
+        .player-item .player-avatar {
+            width: 70px;
+            height: 70px;
+            font-size: 1.8rem;
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        .player-info {
+            flex: 1;
+        }
+
+        .player-item .player-name {
+            text-align: left;
+            margin-bottom: 8px;
+            font-size: 1.3rem;
+        }
+
+        .player-item .player-role {
+            text-align: left;
+            width: auto;
+            display: inline-block;
+        }
+
+        .player-item .player-number {
+            position: static;
+            font-size: 1.5rem;
+            padding: 10px 20px;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #94a3b8;
+            font-size: 1.3rem;
+            display: none;
+        }
+
+        .no-results.show {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 15px;
+            }
+
+            .team-title {
+                font-size: 2.2rem;
+            }
+
+            .player-count {
+                font-size: 1.2rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: 100%;
+            }
+
+            .view-toggle {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .players-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 20px;
+            }
+
+            .player-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .player-info {
+                width: 100%;
+            }
+
+            .player-item .player-name {
+                text-align: center;
+            }
+
+            .player-item .player-role {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .team-title {
+                font-size: 1.8rem;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 100%;
+            }
+
+            .players-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <div class="nav-buttons">
+            <a href="/" class="nav-btn">🏠 Home</a>
+            <button onclick="history.back()" class="nav-btn">← Back</button>
+        </div>
+        <h1 class="team-title">{{ data.Team }}</h1>
+        <p class="player-count">Total Players: <strong>{{ data["Total Unique Players"] }}</strong></p>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <div class="search-box">
+            <input 
+                type="text" 
+                class="search-input" 
+                id="searchInput" 
+                placeholder="Search players..."
+                onkeyup="filterPlayers()"
+            >
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <div class="view-toggle">
+            <button class="view-btn active" onclick="switchView('grid')">
+                📱 Grid
+            </button>
+            <button class="view-btn" onclick="switchView('list')">
+                📋 List
+            </button>
+        </div>
+    </div>
+
+    <!-- Grid View -->
+    <div class="players-grid" id="playersGrid">
+        {% for player in data.Players %}
+        <div class="player-card" data-player="{{ player|lower }}">
+            <div class="player-number">#{{ loop.index }}</div>
+            <div class="player-avatar">{{ player[0]|upper }}</div>
+            <div class="player-name">{{ player }}</div>
+            <div class="player-role">Player</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- List View -->
+    <div class="players-list" id="playersList">
+        {% for player in data.Players %}
+        <div class="player-item" data-player="{{ player|lower }}">
+            <div class="player-avatar">{{ player[0]|upper }}</div>
+            <div class="player-info">
+                <div class="player-name">{{ player }}</div>
+                <div class="player-role">Player</div>
+            </div>
+            <div class="player-number">#{{ loop.index }}</div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- No Results -->
+    <div class="no-results" id="noResults">
+        <p>😕 No players found matching your search</p>
+    </div>
+</div>
+
+<script>
+let currentView = 'grid';
+
+function switchView(view) {
+    currentView = view;
+    const gridView = document.getElementById('playersGrid');
+    const listView = document.getElementById('playersList');
+    const buttons = document.querySelectorAll('.view-btn');
+
+    buttons.forEach(btn => btn.classList.remove('active'));
+
+    if (view === 'grid') {
+        gridView.style.display = 'grid';
+        listView.classList.remove('active');
+        buttons[0].classList.add('active');
+    } else {
+        gridView.style.display = 'none';
+        listView.classList.add('active');
+        buttons[1].classList.add('active');
+    }
+
+    filterPlayers(); // Reapply filter when switching views
+}
+
+function filterPlayers() {
+    const searchInput = document.getElementById('searchInput').value.toLowerCase();
+    const gridCards = document.querySelectorAll('.player-card');
+    const listItems = document.querySelectorAll('.player-item');
+    const noResults = document.getElementById('noResults');
+    
+    let visibleCount = 0;
+
+    // Filter grid cards
+    gridCards.forEach(card => {
+        const playerName = card.getAttribute('data-player');
+        if (playerName.includes(searchInput)) {
+            card.style.display = 'block';
+            visibleCount++;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // Filter list items
+    listItems.forEach(item => {
+        const playerName = item.getAttribute('data-player');
+        if (playerName.includes(searchInput)) {
+            item.style.display = 'flex';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+    // Show/hide no results message
+    if (visibleCount === 0) {
+        noResults.classList.add('show');
+    } else {
+        noResults.classList.remove('show');
+    }
+}
+</script>
+
+</body>
+</html>

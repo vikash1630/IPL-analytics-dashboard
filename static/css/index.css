@@ -1,0 +1,155 @@
+/* ------------------ FULLSCREEN BACKGROUND ------------------ */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    font-family: Poppins, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(135deg, #100c26, #1a0f34, #240f4a, #15092c);
+    background-size: 400% 400%;
+
+    animation: bgAnim 12s ease infinite;
+}
+
+@keyframes bgAnim {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+/* ------------------ GLASS CENTER BOX ------------------ */
+.center-box {
+    text-align: center;
+    width: 75%;
+    max-width: 900px;
+    padding: 50px 30px;
+
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+
+    transition: 0.3s;
+}
+
+/* ------------------ TITLE ------------------ */
+.title {
+    color: white;
+    font-size: 45px;
+    margin-bottom: 40px;
+    letter-spacing: 3px;
+
+    background: linear-gradient(90deg, #ff8a00, #e52e71);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation: glowTitle 2s infinite alternate;
+}
+
+@keyframes glowTitle {
+    0% { text-shadow: 0 0 15px #ff8a00; }
+    100% { text-shadow: 0 0 30px #e52e71; }
+}
+
+/* ------------------ MENU GRID ------------------ */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+/* ------------------ MENU ITEMS ------------------ */
+.menu-item {
+    padding: 30px;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 600;
+    color: white;
+    border-radius: 18px;
+
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+
+    transition: 0.4s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover Glow */
+.menu-item:hover {
+    transform: translateY(-10px) scale(1.04);
+    box-shadow: 0 0 30px rgba(255, 98, 0, 0.8);
+}
+
+/* Neon Shine Animation */
+.menu-item::before {
+    content: "";
+    position: absolute;
+    top: -80%;
+    left: -80%;
+    width: 250%;
+    height: 250%;
+    background: radial-gradient(circle, #ff8a00 0%, transparent 70%);
+    opacity: 0.1;
+    transition: 0.5s;
+}
+
+.menu-item:hover::before {
+    opacity: 0.25;
+    transform: rotate(180deg);
+}
+
+/* -------------------------------------------------------
+   --------------------- MOBILE MODE ---------------------
+   ------------------------------------------------------- */
+@media (max-width: 850px) {
+
+    body {
+        padding: 20px;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        display: block;
+    }
+
+    .center-box {
+        width: 92%;
+        padding: 35px 20px;
+        margin: 40px auto;
+    }
+
+    .title {
+        font-size: 32px;
+        margin-bottom: 30px;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .menu-item {
+        font-size: 20px;
+        padding: 25px;
+        border-radius: 15px;
+    }
+}
+
+/* Ultra-small Devices */
+@media (max-width: 480px) {
+    .title {
+        font-size: 28px;
+    }
+
+    .menu-item {
+        font-size: 18px;
+        padding: 20px;
+    }
+}

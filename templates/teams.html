@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPL Teams</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: Poppins, Arial;
+            background: linear-gradient(135deg, #0d0d0d, #1b1b1b, #111);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* ---- HOME BUTTON ---- */
+        .home-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .home-btn {
+            padding: 12px 35px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            text-decoration: none;
+            color: white;
+            font-size: 17px;
+            letter-spacing: 1px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .home-btn:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-3px);
+        }
+
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #ff8a00, #e52e71);
+            background-clip: var();
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleGlow 2s infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% {
+                text-shadow: 0 0 20px #ff8a00;
+            }
+
+            100% {
+                text-shadow: 0 0 30px #e52e71;
+            }
+        }
+
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+            padding: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .team-card {
+            padding: 40px 25px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 18px;
+            text-align: center;
+            color: #fff;
+
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.35s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: var(--team-color);
+            opacity: 0.15;
+            transform: rotate(45deg);
+            transition: 0.4s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 0 35px var(--team-color);
+        }
+
+        .team-card:hover::before {
+            opacity: 0.35;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="home-wrapper">
+        <a href="/" class="home-btn">🏠 Home</a>
+    </div>
+
+
+    <h1>IPL TEAMS</h1>
+
+    <div class="team-container">
+
+        {% set colors = {
+        "Rajasthan Royals": "#254AA5",
+        "Gujarat Lions": "#FF6F00",
+        "Rising Pune Supergiants": "#5A0FC8",
+        "Gujarat Titans": "#1B2133",
+        "Mumbai Indians": "#004BA0",
+        "Royal Challengers Bangalore": "#D71920",
+        "Delhi Daredevils": "#EE2737",
+        "Delhi Capitals": "#17479E",
+        "Kolkata Knight Riders": "#3A225D",
+        "Kings XI Punjab": "#ED1B24",
+        "Punjab Kings": "#DB0030",
+        "Deccan Chargers": "#283593",
+        "Chennai Super Kings": "#F7D400",
+        "Pune Warriors": "#00A0D6",
+        "Sunrisers Hyderabad": "#F26522",
+        "Rising Pune Supergiant": "#5A0FC8",
+        "Kochi Tuskers Kerala": "#8F0094",
+        "Lucknow Super Giants": "#1D7A85"
+        } %}
+
+        {% for team in teams %}
+        <a href="/team/{{ team }}">
+            <div class="team-card" style="--team-color: {{ colors.get(team, '#ffffff') }}">
+                {{ team }}
+            </div>
+        </a>
+        {% endfor %}
+
+    </div>
+
+</body>
+
+</html>
